@@ -1,0 +1,3 @@
+D:/Projects/Raylib Projects/3d/3d/out/build/x64-debug/CMakeFiles/3d.dir
+D:/Projects/Raylib Projects/3d/3d/out/build/x64-debug/CMakeFiles/edit_cache.dir
+D:/Projects/Raylib Projects/3d/3d/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
