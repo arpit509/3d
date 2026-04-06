@@ -24,16 +24,16 @@ void Player_Update(Player& p, float dt)
 {
     // ── Mouse look ─────────────────────────────
     Vector2 mouse = GetMouseDelta();
-    p.yaw   -= mouse.x * MOUSE_SENS;
-    p.pitch -= mouse.y * MOUSE_SENS;
+    p.yaw   += mouse.x * MOUSE_SENS;   // + = turn right when mouse moves right
+    p.pitch += mouse.y * MOUSE_SENS;   // + = look down when mouse moves down
     p.pitch  = Clamp(p.pitch, -1.5f, 1.5f);
 
     // ── Movement input ─────────────────────────
     int sx = (int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A);
     int fwd = (int)IsKeyDown(KEY_W) - (int)IsKeyDown(KEY_S);
 
-    Vector3 front = { sinf(p.yaw), 0.0f, cosf(p.yaw) };
-    Vector3 right = { cosf(p.yaw), 0.0f, -sinf(p.yaw) };
+    Vector3 front = {  sinf(p.yaw), 0.0f,  cosf(p.yaw) };
+    Vector3 right = { -cosf(p.yaw), 0.0f,  sinf(p.yaw) };  // negated: D=right, A=left
 
     Vector3 wishDir = {
         right.x * sx + front.x * fwd,
@@ -114,8 +114,8 @@ void Player_Update(Player& p, float dt)
         };
         // Negate Z so forward = negative Z in raylib convention
         lookDir.x =  cosf(p.pitch) * sinf(p.yaw);
-        lookDir.y =  sinf(p.pitch);
-        lookDir.z = -cosf(p.pitch) * cosf(p.yaw);   // camera target goes -z
+        lookDir.y = -sinf(p.pitch);
+        lookDir.z =  cosf(p.pitch) * cosf(p.yaw);  // no negation
 
         Bullets_Spawn(eye, lookDir);
     }
@@ -142,7 +142,7 @@ Camera Player_GetCamera(const Player& p)
     lookDir = {
          cosf(p.pitch) * sinf(p.yaw),
         -sinf(p.pitch),
-        -cosf(p.pitch) * cosf(p.yaw)
+         cosf(p.pitch) * cosf(p.yaw)   // no negation needed now
     };
 
     Camera cam = {};
