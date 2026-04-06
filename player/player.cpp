@@ -24,7 +24,7 @@ void Player_Update(Player& p, float dt)
 {
     // ── Mouse look ─────────────────────────────
     Vector2 mouse = GetMouseDelta();
-    p.yaw   += mouse.x * MOUSE_SENS;   // + = turn right when mouse moves right
+    p.yaw   += -mouse.x * MOUSE_SENS;   // + = turn right when mouse moves right
     p.pitch += mouse.y * MOUSE_SENS;   // + = look down when mouse moves down
     p.pitch  = Clamp(p.pitch, -1.5f, 1.5f);
 
