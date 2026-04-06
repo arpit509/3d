@@ -9,82 +9,81 @@ Player gPlayer;
 
 void Player::Reset()
 {
-    position    = { 0.0f, 0.0f, 0.0f };
-    velocity    = { 0.0f, 0.0f, 0.0f };
-    yaw         = 0.0f;
-    pitch       = 0.0f;
-    isGrounded  = false;
-    shootTimer  = 0.0f;
-    ammo        = 30;
-    bobTimer    = 0.0f;
-    bobLerp     = 0.0f;
+    position   = { 0.0f, 0.0f, 0.0f };
+    velocity   = { 0.0f, 0.0f, 0.0f };
+    yaw        = 0.0f;
+    pitch      = 0.0f;
+    isGrounded = false;
+    shootTimer = 0.0f;
+    ammo       = 30;
+    bobTimer   = 0.0f;
+    bobLerp    = 0.0f;
 }
 
 void Player_Update(Player& p, float dt)
 {
-    // ── Mouse look ─────────────────────────────
+    // ── Mouse look ────────────────────────────────────────────────────────────
     Vector2 mouse = GetMouseDelta();
-    p.yaw   += -mouse.x * MOUSE_SENS;   // + = turn right when mouse moves right
-    p.pitch += mouse.y * MOUSE_SENS;   // + = look down when mouse moves down
+    p.yaw   += mouse.x * MOUSE_SENS;   // right  = positive yaw
+    p.pitch += mouse.y * MOUSE_SENS;   // down   = positive pitch
     p.pitch  = Clamp(p.pitch, -1.5f, 1.5f);
 
-    // ── Movement input ─────────────────────────
-    int sx = (int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A);
+    // ── Movement input ────────────────────────────────────────────────────────
+    int sx  = (int)IsKeyDown(KEY_D) - (int)IsKeyDown(KEY_A);
     int fwd = (int)IsKeyDown(KEY_W) - (int)IsKeyDown(KEY_S);
 
+    // Forward and right vectors (horizontal plane only)
     Vector3 front = {  sinf(p.yaw), 0.0f,  cosf(p.yaw) };
-    Vector3 right = { -cosf(p.yaw), 0.0f,  sinf(p.yaw) };  // negated: D=right, A=left
+    Vector3 right = { -cosf(p.yaw), 0.0f,  sinf(p.yaw) };  // D=right, A=left
 
+    // Desired direction from input
     Vector3 wishDir = {
-        right.x * sx + front.x * fwd,
+        right.x * (float)sx + front.x * (float)fwd,
         0.0f,
-        right.z * sx + front.z * fwd
+        right.z * (float)sx + front.z * (float)fwd
     };
-    if (Vector3Length(wishDir) > 0.001f) wishDir = Vector3Normalize(wishDir);
+    if (Vector3Length(wishDir) > 0.001f)
+        wishDir = Vector3Normalize(wishDir);
 
-    // Accelerate
-    p.velocity.x += wishDir.x * PLAYER_SPEED * dt * 8.0f;
-    p.velocity.z += wishDir.z * PLAYER_SPEED * dt * 8.0f;
+    // ── Smooth horizontal movement (Lerp to target velocity) ─────────────────
+    float targetX = wishDir.x * MAX_SPEED;
+    float targetZ = wishDir.z * MAX_SPEED;
 
-    // Friction / air drag
-    float drag = p.isGrounded ? PLAYER_FRICTION : AIR_DRAG;
-    p.velocity.x *= drag;
-    p.velocity.z *= drag;
+    // Higher rates = snappier, lower = more floaty
+    bool  hasInput  = (sx != 0 || fwd != 0);
+    float accelRate = p.isGrounded ? 12.0f : 4.0f;   // ramp up speed
+    float decelRate = p.isGrounded ? 14.0f : 3.0f;   // slow down when no input
+    float lerpRate  = hasInput ? accelRate : decelRate;
 
-    // Speed cap
-    float hspeed = sqrtf(p.velocity.x * p.velocity.x + p.velocity.z * p.velocity.z);
-    if (hspeed > MAX_SPEED)
-    {
-        float scale = MAX_SPEED / hspeed;
-        p.velocity.x *= scale;
-        p.velocity.z *= scale;
-    }
+    p.velocity.x = Lerp(p.velocity.x, targetX, lerpRate * dt);
+    p.velocity.z = Lerp(p.velocity.z, targetZ, lerpRate * dt);
 
-    // Gravity
-    if (!p.isGrounded) p.velocity.y -= GRAVITY * dt;
+    // ── Gravity ───────────────────────────────────────────────────────────────
+    if (!p.isGrounded)
+        p.velocity.y -= GRAVITY * dt;
 
-    // Jump
+    // ── Jump ──────────────────────────────────────────────────────────────────
     if (p.isGrounded && IsKeyPressed(KEY_SPACE))
     {
         p.velocity.y  = JUMP_FORCE;
         p.isGrounded  = false;
     }
 
-    // Integrate
+    // ── Integrate position ────────────────────────────────────────────────────
     p.position.x += p.velocity.x * dt;
     p.position.y += p.velocity.y * dt;
     p.position.z += p.velocity.z * dt;
 
-    // Floor clamp
+    // ── Floor collision ───────────────────────────────────────────────────────
     if (p.position.y <= FLOOR_Y)
     {
         p.position.y = FLOOR_Y;
         p.velocity.y = 0.0f;
-        p.isGrounded  = true;
+        p.isGrounded = true;
     }
 
-    // ── Head bob ───────────────────────────────
-    bool moving = (sx != 0 || fwd != 0) && p.isGrounded;
+    // ── Head bob ──────────────────────────────────────────────────────────────
+    bool moving = hasInput && p.isGrounded;
     if (moving)
     {
         p.bobTimer += dt * 8.0f;
@@ -95,27 +94,21 @@ void Player_Update(Player& p, float dt)
         p.bobLerp = Lerp(p.bobLerp, 0.0f, dt * 8.0f);
     }
 
-    // ── Shooting ───────────────────────────────
+    // ── Shooting ──────────────────────────────────────────────────────────────
     p.shootTimer -= dt;
-    bool shooting = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
-    if (shooting && p.shootTimer <= 0.0f)
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && p.shootTimer <= 0.0f)
     {
         p.shootTimer = SHOOT_COOLDOWN;
 
-        // Fire from camera eye, in look direction
         Vector3 eye = { p.position.x, p.position.y + PLAYER_HEIGHT, p.position.z };
 
-        // Build look direction from yaw + pitch
+        // Look direction from yaw + pitch
         Vector3 lookDir = {
-            cosf(p.pitch) * sinf(p.yaw),   // note: flip yaw for fire direction
-            sinf(p.pitch),
-            cosf(p.pitch) * cosf(p.yaw)
+             cosf(p.pitch) * sinf(p.yaw),
+            -sinf(p.pitch),
+             cosf(p.pitch) * cosf(p.yaw)
         };
-        // Negate Z so forward = negative Z in raylib convention
-        lookDir.x =  cosf(p.pitch) * sinf(p.yaw);
-        lookDir.y = -sinf(p.pitch);
-        lookDir.z =  cosf(p.pitch) * cosf(p.yaw);  // no negation
 
         Bullets_Spawn(eye, lookDir);
     }
@@ -123,6 +116,7 @@ void Player_Update(Player& p, float dt)
 
 Camera Player_GetCamera(const Player& p)
 {
+    // Head bob offsets
     float bobX = sinf(p.bobTimer * PI)        * 0.06f * p.bobLerp;
     float bobY = fabsf(cosf(p.bobTimer * PI)) * 0.08f * p.bobLerp;
 
@@ -132,24 +126,18 @@ Camera Player_GetCamera(const Player& p)
         p.position.z
     };
 
-    // Target: camera looks in -Z by default, rotated by yaw then pitch
+    // Camera look direction (matches bullet fire direction)
     Vector3 lookDir = {
-        cosf(p.pitch) * sinf(p.yaw),
-       -sinf(p.pitch),                     // negative: pitch up = negative y delta
-        cosf(p.pitch) * cosf(p.yaw)        // cos(yaw) gives +Z (behind us in raylib)
-    };
-    // Correct: target is eye + forward, where forward flips Z
-    lookDir = {
          cosf(p.pitch) * sinf(p.yaw),
         -sinf(p.pitch),
-         cosf(p.pitch) * cosf(p.yaw)   // no negation needed now
+         cosf(p.pitch) * cosf(p.yaw)
     };
 
-    Camera cam = {};
-    cam.position   = eye;
-    cam.target     = Vector3Add(eye, lookDir);
-    cam.up         = { 0.0f, 1.0f, 0.0f };
-    cam.fovy       = 70.0f;
+    Camera cam    = {};
+    cam.position  = eye;
+    cam.target    = Vector3Add(eye, lookDir);
+    cam.up        = { 0.0f, 1.0f, 0.0f };
+    cam.fovy      = 70.0f;
     cam.projection = CAMERA_PERSPECTIVE;
     return cam;
 }
