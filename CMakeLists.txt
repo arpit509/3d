@@ -8,10 +8,13 @@ endif()
 project("FPS_Shooter")
 set(CMAKE_CXX_STANDARD 20)
 
-# Auto-collect all .cpp files recursively from all subfolders
+# Auto-collect all .cpp files recursively
 file(GLOB_RECURSE SOURCES "*.cpp")
 
-# Debug - print what files were found
+# Exclude CMake's own build folder (contains CMakeCXXCompilerId.cpp etc.)
+list(FILTER SOURCES EXCLUDE REGEX ".*/out/.*")
+list(FILTER SOURCES EXCLUDE REGEX ".*/CMakeFiles/.*")
+
 message(STATUS "Sources found: ${SOURCES}")
 
 include_directories(C:/raylib/include)

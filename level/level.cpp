@@ -1,6 +1,7 @@
 // level.cpp
 #include "level.h"
 #include "raylib.h"
+#include <cmath> 
 
 static const Color TILE_A = { 60,  60,  80,  255 };
 static const Color TILE_B = { 80,  80, 100,  255 };

@@ -89,26 +89,6 @@ build CMakeFiles\FPS_Shooter.dir\main.cpp.obj: CXX_COMPILER__FPS_Shooter_unscann
   TARGET_PDB = FPS_Shooter.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\FPS_Shooter.dir
 
-build CMakeFiles\FPS_Shooter.dir\out\build\x64-debug\CMakeFiles\4.1.2-msvc8\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj: CXX_COMPILER__FPS_Shooter_unscanned_Release D$:\Projects\Raylib$ Projects\3d\3d\out\build\x64-debug\CMakeFiles\4.1.2-msvc8\CompilerIdCXX\CMakeCXXCompilerId.cpp || cmake_object_order_depends_target_FPS_Shooter
-  CONFIG = Release
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG -std:c++20
-  INCLUDES = -IC:\raylib\include -I"D:\Projects\Raylib Projects\3d\3d" -I"D:\Projects\Raylib Projects\3d\3d\bullet" -I"D:\Projects\Raylib Projects\3d\3d\enemy" -I"D:\Projects\Raylib Projects\3d\3d\level" -I"D:\Projects\Raylib Projects\3d\3d\player" -I"D:\Projects\Raylib Projects\3d\3d\title"
-  OBJECT_DIR = CMakeFiles\FPS_Shooter.dir
-  OBJECT_FILE_DIR = CMakeFiles\FPS_Shooter.dir\out\build\x64-debug\CMakeFiles\4.1.2-msvc8\CompilerIdCXX
-  TARGET_COMPILE_PDB = CMakeFiles\FPS_Shooter.dir\
-  TARGET_PDB = FPS_Shooter.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\FPS_Shooter.dir
-
-build CMakeFiles\FPS_Shooter.dir\CMakeFiles\4.2.3\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj: CXX_COMPILER__FPS_Shooter_unscanned_Release D$:\Projects\Raylib$ Projects\3d\3d\out\build\x64-release\CMakeFiles\4.2.3\CompilerIdCXX\CMakeCXXCompilerId.cpp || cmake_object_order_depends_target_FPS_Shooter
-  CONFIG = Release
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG -std:c++20
-  INCLUDES = -IC:\raylib\include -I"D:\Projects\Raylib Projects\3d\3d" -I"D:\Projects\Raylib Projects\3d\3d\bullet" -I"D:\Projects\Raylib Projects\3d\3d\enemy" -I"D:\Projects\Raylib Projects\3d\3d\level" -I"D:\Projects\Raylib Projects\3d\3d\player" -I"D:\Projects\Raylib Projects\3d\3d\title"
-  OBJECT_DIR = CMakeFiles\FPS_Shooter.dir
-  OBJECT_FILE_DIR = CMakeFiles\FPS_Shooter.dir\CMakeFiles\4.2.3\CompilerIdCXX
-  TARGET_COMPILE_PDB = CMakeFiles\FPS_Shooter.dir\
-  TARGET_PDB = FPS_Shooter.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\FPS_Shooter.dir
-
 build CMakeFiles\FPS_Shooter.dir\player\player.cpp.obj: CXX_COMPILER__FPS_Shooter_unscanned_Release D$:\Projects\Raylib$ Projects\3d\3d\player\player.cpp || cmake_object_order_depends_target_FPS_Shooter
   CONFIG = Release
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG -std:c++20
@@ -137,7 +117,7 @@ build CMakeFiles\FPS_Shooter.dir\title\game.cpp.obj: CXX_COMPILER__FPS_Shooter_u
 #############################################
 # Link the executable FPS_Shooter.exe
 
-build FPS_Shooter.exe: CXX_EXECUTABLE_LINKER__FPS_Shooter_Release CMakeFiles\FPS_Shooter.dir\bullet\bullet.cpp.obj CMakeFiles\FPS_Shooter.dir\enemy\enemy.cpp.obj CMakeFiles\FPS_Shooter.dir\level\level.cpp.obj CMakeFiles\FPS_Shooter.dir\main.cpp.obj CMakeFiles\FPS_Shooter.dir\out\build\x64-debug\CMakeFiles\4.1.2-msvc8\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj CMakeFiles\FPS_Shooter.dir\CMakeFiles\4.2.3\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj CMakeFiles\FPS_Shooter.dir\player\player.cpp.obj CMakeFiles\FPS_Shooter.dir\title\game.cpp.obj
+build FPS_Shooter.exe: CXX_EXECUTABLE_LINKER__FPS_Shooter_Release CMakeFiles\FPS_Shooter.dir\bullet\bullet.cpp.obj CMakeFiles\FPS_Shooter.dir\enemy\enemy.cpp.obj CMakeFiles\FPS_Shooter.dir\level\level.cpp.obj CMakeFiles\FPS_Shooter.dir\main.cpp.obj CMakeFiles\FPS_Shooter.dir\player\player.cpp.obj CMakeFiles\FPS_Shooter.dir\title\game.cpp.obj
   CONFIG = Release
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG
   LINK_FLAGS = /machine:x64 /INCREMENTAL:NO /subsystem:console
