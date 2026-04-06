@@ -28,7 +28,7 @@
 					[
 						0
 					],
-					"name" : "3D",
+					"name" : "FPS_Shooter",
 					"targetIndexes" : 
 					[
 						0
@@ -39,9 +39,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "3D::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-3D-Release-ba66354beed6e780cdde.json",
-					"name" : "3D",
+					"id" : "FPS_Shooter::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-FPS_Shooter-Release-f04490d0f4177d3eb7cd.json",
+					"name" : "FPS_Shooter",
 					"projectIndex" : 0
 				}
 			]
