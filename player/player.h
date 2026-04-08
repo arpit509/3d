@@ -12,7 +12,7 @@
 #define JUMP_FORCE        10.0f
 #define MAX_SPEED         14.0f
 #define MOUSE_SENS         0.0015f
-#define SHOOT_COOLDOWN     0.18f   // seconds between shots
+#define SHOOT_COOLDOWN     0.3f   // seconds between shots
 
 struct Player
 {

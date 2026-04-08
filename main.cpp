@@ -23,7 +23,7 @@ static void StartWave(int wave);
 // ─────────────────────────────────────────────────────────────────────────────
 int main()
 {
-    const int W = 1280, H = 720;
+    const int W = 1600 , H = 900;
     InitWindow(W, H, "FPS Shooter  |  WASD Move  |  Mouse Aim  |  LMB Shoot  |  Space Jump");
     SetTargetFPS(60);
     DisableCursor();

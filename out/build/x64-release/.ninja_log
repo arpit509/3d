@@ -10,3 +10,6 @@
 4	1204	7971543549132547	CMakeFiles/FPS_Shooter.dir/bullet/bullet.cpp.obj	ed3ed211e7c5a482
 4	253	7971544100818423	CMakeFiles/FPS_Shooter.dir/level/level.cpp.obj	673b1f2007400c57
 748	987	7972570230501412	FPS_Shooter.exe	5d7697bf6eac8ba4
+9	785	7973715687008107	CMakeFiles/FPS_Shooter.dir/player/player.cpp.obj	e944e239a215b9bc
+4	789	7973715686948032	CMakeFiles/FPS_Shooter.dir/main.cpp.obj	b54955a3faae3548
+789	1098	7973715694808288	FPS_Shooter.exe	5d7697bf6eac8ba4
